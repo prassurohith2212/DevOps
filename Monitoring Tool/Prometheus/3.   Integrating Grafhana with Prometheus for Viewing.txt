@@ -1,0 +1,14 @@
+
+3. How To Integrate and Visualize Prometheus Metrics In Grafana:
+====================================================================
+. Grafana is one of the best open source visualization tools. 
+. It can be easily integrated with Prometheus for visualizing all the target metrics.
+
+
+Step 1: Prerequsites :
+======================
+. To setup Prometheus and Node exporter metrics, please follow the below tutorials.
+
+1. Setup Prometheus on Linux.
+2. Setup Node Exporter.
+

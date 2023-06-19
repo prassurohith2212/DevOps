@@ -1,0 +1,45 @@
+
+Prometheus Monitoring Tool:
+============================
+
+1.What is Prometheus ?
+-------------------------
+. Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
+
+- Server Monitoring:
+. The Node Exporter exposes an extensive set of machine-level metrics on Linux and other Unix systems such as CPU Usage,
+  Memory, Disk utilization, fileSystem fullness, and network bandwidth.
+
+- Network Monitoring:
+. The SNMP Exporter allows monitoring of device that support SNMP.
+
+- Monitoring batch Jobs:
+. using the pushgateway. see also the best practices for monitoring batch jobs.
+
+2. Components in Prometheus:
+-------------------------------
+. Prometheus Server.
+. Node Exporter Installs on all Client Servers.
+. Tell to Prometheus that you have deployed Node Exporters on all of his clients.
+. Prometheus stores configuration in YML format.
+. prometheus configuration file is named: prometheus.yaml
+. you have have Web gui DashBoard to view the Metrics but use Grafhana.
+
+
+2.1. Prometheus Server:
+------------------------
+. It has 3 components inside: 
+- Retrival           : pulls all metrics from node expoters and keep it in Retrival.
+- Service Discovery  : prometheus Server can login to clients and pulls the data metrics.
+- TSDB               : pull or push with changes of time can use this db.
+- HTTP Server        : GUI.
+- PromQl             : Its a Query Language using this u can query prometheus.
+- Grafhana           : Use Grafhana for Data visualization.
+- API Clients        : Create a API Clients to communicate with Prometheus.
+- Alert manager      : Prometheus can send alerts by using Alert Manager via Email or PagerDuty.
+
+ 
+
+
+
+
