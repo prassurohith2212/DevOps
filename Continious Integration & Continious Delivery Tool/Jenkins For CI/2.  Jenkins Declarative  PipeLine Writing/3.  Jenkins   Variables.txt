@@ -1,0 +1,189 @@
+1. Variables:
+==============
+
+1. What is Variable:
+----------------------
+. Variables are used to store value.
+
+< VariableName > = "<VariableValue>"
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Types of Variables:
+--------------------------
+. We have two types of Variables.
+
+1. Pre Defined Variables:
+-------------------------
+. Variables already defined by jenkins u can use in ur pipeline.
+. You can find your variables in http://<IPAddress>:8080/env-vars.html
+
+
+Syntax:
+--------
+pipeline{ 
+
+   agent any  or  Maven-Slave
+   
+   stages("Predefined variables "){ 
+
+        steps{ 
+	
+ 		echo "Current_Build Number : $BUILD_NUMBER"
+		} 
+	} 
+  } 
+} 
+
+
+
+2. User Defined Variables:
+---------------------------
+. we can define enviromment section to define variables.
+
+
+Syntax:
+--------
+
+pipeline {
+agent {
+       node {
+         label "MAVEN"
+            }      
+      }
+environment{
+PATH = "$PATH:/opt/mvn/apache-maven"    
+}
+stages {
+        stage('Get Code From GitHub') {                                                
+            steps {
+                
+				echo " Maven Path = $PATH"
+				
+                  }
+             }
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Variable Declaration:
+==========================
+. Variable Declaration can be done in below ways.
+
+
+1. Global ( Pipeline ) Level
+
+
+Example:
+---------
+pipeline {
+agent {
+       node {
+         label "MAVEN"
+            }      
+      }
+environment{
+PATH = "$PATH:/opt/mvn/apache-maven"    //  Global Level user Defined Variables
+}
+stages {
+        stage('Global Level user Defined Variables') {                                                
+            steps {
+                
+				echo " Maven Path = $PATH"
+				
+                  }
+             }
+}
+
+
+
+2. Stage Level
+
+
+Example:
+---------
+
+pipeline {
+agent {
+       node {
+         label "MAVEN"
+            }      
+      }
+   
+stages {
+        stage(' Stage Level User Defined variable') {    
+		
+             environment{
+             PATH = "$PATH:/opt/mvn/apache-maven"    
+                        }		
+        
+		steps {
+                
+				echo " Maven Path = $PATH"
+				
+                  }
+             }
+}
+
+
+3. Script Level
+-------------------
+. you cant use environment variables in script level  at steps.
+. You have to use scripts.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Scope of variables:
+========================
+. When you defines a variables in global & stage levels.
+. you stage script will take variable values from stage only.
+
+
+Script Level----->>Stage Level----->>Global Level
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Difference B/W Single Quote & Double Quotes.
+================================================
+. if u place a variable in single quote it wont print a value it will take as a string.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+6. Concatination of Variables:
+---------------------------------
+. Combination of multiple variables as single.
+
+Example:
+--------
+
+
+pipeline {
+agent {
+       node {
+         label "MAVEN"
+            }      
+      }
+   
+stages {
+        stage(' Stage Level User Defined variable') {    
+		
+             environment{
+                    name1:prassu
+                    name2:rohith					
+                        }		
+        
+		steps {
+               script { 
+			      
+				  name =  name1 + name2
+			   
+				echo " FullName = $name"
+				}
+                  }
+             }
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------

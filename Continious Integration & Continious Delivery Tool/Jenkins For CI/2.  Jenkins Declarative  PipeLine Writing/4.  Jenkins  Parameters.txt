@@ -1,0 +1,71 @@
+
+Jenkins Parameters:
+===================
+1. What is Jenkins Parameters?
+------------------------------
+. Parameters are used to pass the values Dynamically.
+. For any Parameter type we have to give 3values like  name, default value, description.
+
+
+
+2. Types of Parameters:
+------------------------
+1. String
+-----------
+. Its used to get the value of simple text.
+
+2. Text
+---------
+. If you want to pass multiple lines of input u can use this.
+
+
+3. Boolean:
+------------
+. yes or No  
+
+
+4. Choice:
+-----------
+. Its a Drop Down list u can select any value with in the list.
+
+5. Password:
+--------------
+. We cant able to see the text ur type its a password.
+
+7. File:
+-----------
+. If u want to upload any file in build u have to use File Parameter.
+
+
+
+Example:
+----------
+
+pipeline {
+agent any
+parameters {
+
+         string(name:'Tool', defaultValue:'Jenkins', description:'Hello World')
+         text()
+         booleanparm()
+         choice()
+		 password()
+		 file()
+
+}
+
+   
+stages {
+        stage(' Parameters') {    
+		
+		    steps {
+              
+			  
+			  
+			  
+                  }
+             }
+}
+
+
+

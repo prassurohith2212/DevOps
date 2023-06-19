@@ -1,0 +1,30 @@
+
+1. Jenkins Introduction:
+============================
+
+1.1. What is jenkins ?
+------------------------
+. Jenkins is a powerful application that allows continuous integration and continuous delivery of projects, 
+  regardless of the platform you are working on. It is a free source that can handle any kind of build or continuous integration. 
+. You can integrate Jenkins with a number of testing and deployment technologies. 
+
+
+1.2.Why Jenkins?
+-----------------
+. Jenkins is a software that allows continuous integration. Jenkins will be installed on a server where the central build 
+  will take place.
+  
+1.3. What is Continuous Integration 7 Continuous  Deployment ?
+-----------------------------------------------------------------
+. A continuous integration and continuous deployment (CI/CD) pipeline is a series of steps that must be performed in order 
+  to deliver a new version of software. CI/CD pipelines are a practice focused on improving software delivery throughout  
+  the software development life cycle via automation. 
+
+.By automating CI/CD throughout development, testing, production, and monitoring phases of the software development lifecycle, 
+ organizations are able to develop higher quality code, faster. Although it’s possible to manually execute each of the steps of
+ a CI/CD pipeline, the true value of CI/CD pipelines is realized through automation.
+
+
+  
+
+

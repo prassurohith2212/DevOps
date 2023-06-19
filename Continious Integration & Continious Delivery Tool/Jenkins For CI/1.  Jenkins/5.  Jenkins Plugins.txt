@@ -1,0 +1,34 @@
+
+4. Jenkins Important & Usefull Plugins:
+========================================
+
+4.1. jankins Plugins:
+-----------------------
+. Plugins are the primary means of enhancing the functionality of a Jenkins environment to suit organization- 
+  or user-specific needs. There are over a thousand different plugins which can be installed on a Jenkins controller 
+  and to integrate various build tools, cloud providers, analysis tools, and much more.
+
+. Jenkins provides a variety of plugins for a different task. To see the list of all available plugins in Jenkins, 
+  open the following link: 
+  
+  https://plugins.jenkins.io/
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+4.2. Install, Upgrade, Remove Plugins for Jenkins:
+---------------------------------------------------
+1. To install a plugin, go to the Jenkins Dashboard and click on Manage Jenkins.
+2. Scroll down and select Manage Plugins.
+3. Go to the Available tab and in the filter option, search for the plugins which you want to install.
+4. Select that plugins and click on Install without restart button. You can also choose Download now and install after restart button.
+5. Once the installation has been completed successfully, click on Go back to the top page link.
+
+Uninstalling Plugins:
+.......................
+
+1. To uninstall a plugin in Jenkins, go to the Manage Jenkins.
+2. Select Manage Plugins.
+3. Click on the Installed tab. And select the pipeline which you want to uninstall and click on Uninstall button.
+4. Click on Yes button
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------

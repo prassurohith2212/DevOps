@@ -1,0 +1,12 @@
+4. ArgoCD Applications & Projects:
+===================================
+
+1. Argo CD Application:
+========================
+- Source      : GitHub Repository Stores the Deployment & Service files of App Deployments
+- Destination : ArgoCD pull the configs &  applies to Kubernetes Clusters.
+
+
+2. Create App using Argo CD :
+==============================
+

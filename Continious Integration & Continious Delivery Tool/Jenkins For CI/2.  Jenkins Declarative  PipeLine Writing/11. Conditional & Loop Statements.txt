@@ -1,0 +1,68 @@
+
+11. Conditional & Loop Statements:
+==================================
+. Write conditions.
+
+
+Example:
+==========
+
+
+pipeline {
+
+agent any
+environment{
+
+     TollName= 'Jenkins'
+
+}
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+triggers{
+
+   cron('*****')                                    
+
+}
+stages {
+        stage('Conditions') {                                                
+            steps {
+            script{ 
+			
+			if(ToolName='Jenkins'){
+			
+			echo "Build is Success"
+			
+			}
+			else{
+			
+			echo "Build is failed"
+			
+			}
+			
+			
+			
+			
+			}  
+			  
+      
+                  }
+                }
+       }
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. For Loop:
+==============
+. Write ForLoops:
+
+
+
+
+

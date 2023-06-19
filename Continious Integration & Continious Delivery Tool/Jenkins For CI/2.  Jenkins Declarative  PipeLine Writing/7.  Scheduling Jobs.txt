@@ -1,0 +1,81 @@
+
+7. Scheduling Jobs:
+====================
+. CronJob.
+. Poll SCM.
+
+
+1. CronJob:
+===========
+. Can trigger Builds based on cron jobs.
+
+
+Example:
+--------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+triggers{
+
+   cron('*****')                                     // Build will trigger based on cronjobs.
+
+}
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build(job1)            
+			   build(job2)
+      
+                  }
+                }
+       }
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.Poll SCM:
+============
+. Trigger Builds using Poll SCM.
+
+
+Example:
+---------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+triggers{
+
+   pollSCM('* * * * *')                                     // Build will trigger based on PollSCM.
+
+}
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build(job1)            
+			   build(job2)
+      
+                  }
+                }
+       }
+}

@@ -1,0 +1,177 @@
+
+2. PipeLine Basics:
+===================
+
+2.1. Basics:
+=============
+
+1. Steps:
+----------
+. We need to write inside the stage directive.
+. Contains steps ( Commands / Scripts ) that we used in the build.
+. One steps directive should be there in the stage directive.
+
+2. Stage:
+----------
+. Defines particular Stage ( build/test/deploy) of our job.
+. at least one stage has to be there.
+. Name will be displays on the jenkins DashBoard.
+
+3. Stages:
+-----------
+. Contains Sequence of stages.
+. At Least one stage has to be there.
+
+4. Agents:
+-----------
+. Where ( Master/Slave/Container ) we need to run our Pipeline Script.
+
+
+
+Example: Syntax to Start jenkins Pipeline.
+---------------------------------------------
+
+pipeline{ //pipeline declaration
+
+   agent < Option >  // Where or which node or Slave job can run
+   
+   stages("Stage Name"){ //Stage type : build/test/deploy
+
+   
+        steps{ /* Actual execution starts from here, like 
+		          commands execution, scripts execution etc */
+	
+             
+ 		echo "Hello World" //echo is the print statement
+
+		} // Closed curly brace for steps section
+	
+	} // Stage Closed Curly Braces 
+  
+  } //Stages Closed Curly Braces
+
+} // Pipeline Closed Curly Braces
+
+
+
+========================================================================================================================================================
+
+2.2. Stage Clours  In Pipeline Script:
+=======================================
+
+White Colour :  Stage not executed in State.
+
+Green Colour : Executed or Success
+
+Blue Lines  :  Currently Executing the Script
+
+Red Lines   :  Stage is Failed.
+
+Red         :  Deployment failed.
+
+======================================================================================================================================================
+
+3. Comments Syntax:
+====================
+
+1. Comments:
+-------------
+. Comments are immportant to understand code in a betterway.
+. Comments can be ignored by compiler.
+. In jenkins there are 2 types of comments.
+
+1. Single Line Comments:
+-------------------------
+. // Comment can be written here.
+
+2. Multiple Comment:
+----------------------
+/* 
+
+comment 1
+comment 2
+comment 3
+
+*/
+
+
+Example of  Comments & Syntax:
+--------------------------------
+
+pipeline{ //pipeline declaration
+
+   agent < Option >  // Where or which node or Slave job can run
+   
+   stages("Stage Name"){ //Stage type : build/test/deploy
+
+   
+        steps{ /* Actual execution starts from here, like 
+		          commands execution, scripts execution etc */
+	
+             
+ 		echo "Hello World" //echo is the print statement
+
+		} // Closed curly brace for steps section
+	
+	} // Stage Closed Curly Braces 
+  
+  } //Stages Closed Curly Braces
+
+} // Pipeline Closed Curly Braces
+
+======================================================================================================================================================
+
+4. Create a First Hello World Pipeline :
+===========================================
+
+pipeline{ 
+
+   agent any  or  Maven-Slave
+   
+   stages(" Hello World "){ 
+
+   
+        steps{ 
+	
+ 		echo "Hello World"
+
+		} 
+	
+	} 
+  
+  } 
+
+} 
+
+======================================================================================================================================================
+
+5. Executing Linux  Commands:
+=================================
+. You can Execute Linux commands like below on Slave as a part of CICD.
+
+
+Example:
+---------
+
+
+pipeline{ 
+
+   agent any  or  Maven-Slave
+   
+   stages(" Executing Shell Linux Commands "){ 
+
+   
+        steps{ 
+	
+ 		sh  ls -lrth  /root
+
+		} 
+	
+	} 
+  
+  } 
+
+} 
+========================================================================================================================================================
+
+

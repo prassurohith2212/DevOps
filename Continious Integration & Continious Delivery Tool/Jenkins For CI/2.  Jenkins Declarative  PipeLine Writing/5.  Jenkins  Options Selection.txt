@@ -1,0 +1,233 @@
+5. Jenkins Options Selection:
+=============================
+
+1. What is Options:
+====================
+. PreBuild options
+. We have multiple options available in jenkins.
+
+
+======================================================================================================================================================
+
+
+2. Types of Opions:
+====================
+
+2.1. Retry:
+------------
+. Before failing the job, will run the job again to specified times.
+
+
+Example for Retry:
+------------------
+
+
+pipeline {
+
+agent any
+
+options {
+   
+   retry(3)               // it will retry 3 times now of below stage.
+
+  }
+
+stages {
+        stage('Options Check') {                                                
+            steps {
+               
+                git branch: 'main', credentialsId: '57c0ce68-28eb-4a5b-8ea5-bdabab415bb8', url: 'https://github.com/prassurohith/TaxiBooking.git'
+			    
+                  }
+                }
+       }
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.2. Build Discarder:
+-----------------------
+. Used to Delete the old builds.
+
+
+Example:
+---------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))              // it will keep latest 2 Builds
+
+  }
+
+stages {
+        stage('Options Check') {                                                
+            steps {
+               
+                git branch: 'main', credentialsId: '57c0ce68-28eb-4a5b-8ea5-bdabab415bb8', url: 'https://github.com/prassurohith/TaxiBooking.git'
+			    
+                  }
+                }
+       }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.3. Disable Concurent Builds:
+==============================
+. Assume if you trigger same build 2 times by mistake parallely. it may be a big conflict.
+. This option will disable concurent builds.
+
+
+Example:
+---------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))              
+   diableConcurentBuilds()                               // it will disable same build cant run paralley 2 times.
+  }
+
+stages {
+        stage('Options Check') {                                                
+            steps {
+               
+                git branch: 'main', credentialsId: '57c0ce68-28eb-4a5b-8ea5-bdabab415bb8', url: 'https://github.com/prassurohith/TaxiBooking.git'
+			    
+                  }
+                }
+       }
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.4. TimeOut:
+===============
+. Time to set for Particular Build.
+. It will fail build if build not completed in specific time period.
+
+
+Example:
+--------
+
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')                            // it  will fail job if build not completed in 10 sec.
+  }
+
+stages {
+        stage('Options Check') {                                                
+            steps {
+               
+                git branch: 'main', credentialsId: '57c0ce68-28eb-4a5b-8ea5-bdabab415bb8', url: 'https://github.com/prassurohith/TaxiBooking.git'
+			    
+                  }
+                }
+       }
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.5. TimeStamps:
+----------------
+. At what time steps got executed u will get to know by applying this.
+
+
+
+Example:
+--------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                     // it  will give u time stamps for ur steps when its executed.
+  }
+
+stages {
+        stage('Options Check') {                                                
+            steps {
+               
+                git branch: 'main', credentialsId: '57c0ce68-28eb-4a5b-8ea5-bdabab415bb8', url: 'https://github.com/prassurohith/TaxiBooking.git'
+			    
+                  }
+                }
+       }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

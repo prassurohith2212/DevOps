@@ -1,0 +1,70 @@
+
+2. Argo CD :
+=============
+
+2.1. What is Argo CD ?
+========================
+
+- Argo CD is a declarative, GitOps Continious Delivery Tool for Kubernetes resources defined in a Git Repository.
+- Continious Monitors running applications and comparing their live state to the desired state.
+- It reports the deviations and provides visualizations to help developers manually or automatically sync the live state with the desired state.
+
+
+
+
+2.2. Why Argo CD ?
+====================
+- It extends the benifits of declarative specifications and Git-Based configuration management.
+- It is the first step in achieving continious operation based on monitoring, analytics, and automated remediation.
+- It can deploy to multiple clusters and is Enterprise-Friendly( auditability, compliance, security, RBAC, SSO and alot more ).
+
+
+
+
+2.3. How ArgoCD Works?
+========================
+- It follows the GitOps pattern by using Git Repositories as the source of truth for the desired state of app and the target deployment envs.
+- It automates the synchronization of the desired application state with each of the specified target environments.
+
+
+
+2.4. ArgoCD Concepts & Terminologys:
+=====================================
+
+. Application              : A group of kubernetes resources as defined by a manifest.
+. Application source type  : The tool is used to build the application. E.g. Helm, Kustomize or Ksonnet.
+. Project                  : Provide a Logical grouping of applications, which is usefull when ArgoCD is used by multiple teams.
+
+. Target State : The Desired state of an application, as represented by files in the Git Repository.
+. Live State   : The live state of the application. what pods, configmap, secrets, etc are created/deployed in a Kubernetes Cluster.
+
+
+. Sync Status            :  Whether or not the live state matches the target state. Is the deployed application the same as Git says it should be ?.
+. Sync                   :  The process of making an application move to its target state. E.g. by applying changes to a kubernetes cluster.
+. Sync Operation Status  :  Whether or not a sync succeeded.
+
+
+. Refresh : Compares the latest code in Git with the live state. Figure out what is diffrent.
+. Health  : The Health of the applications, is it running correctly Can it serve requests ?
+
+
+
+
+2.5. ArgoCD Features :
+=======================
+. Automated deployment of applications to specified target environment in multiple clusters.
+. Audit trails for application events and Api calls.
+. SSO Integration.
+. Webhook integration.
+. Rollback/Roll-anywhere to any application configuration committed in git repository.
+. Web UI which provides real-view of application activity.
+. Automated configuration drift detection and visualization.
+. Out of the box Prometheus metrics.
+. Supports for multiple config management/templating tools.
+. multitenancy and RBAC policies for authorization.
+. PreSync, Sync, PostSync hooks to support complex applications rollouts.
+
+
+
+
+ 

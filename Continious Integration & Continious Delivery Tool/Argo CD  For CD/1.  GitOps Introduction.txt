@@ -1,0 +1,58 @@
+
+1. GitOps Introduction :
+=========================
+
+1.1. What is GitOps ?
+======================
+
+- GitOps can be considered an extention of Infrastructure as Code (Iac) that uses Git as the Version Control System.
+
+- Developers already use Git for the source code of the application – GitOps extends this practice to an application’s configuration, infrastructure,
+  and operational procedures. 
+- All changes to applications and infrastructure are described in a source control system and automatically synchronized with the live environment.
+
+- GitOps is a set of deployment practices while DevOps is a paradigm or better yet, a mindset. 
+- Their shared principles make it easier for teams to adopt the GitOps workflow for existing DevOps techniques.
+
+
+1.2. GitOps Principles :
+=========================
+
+- Desired State == Current State
+
+- The 4 Commandments of GitOps.
+- Here are the four things GitOps practitioners swear by. You absolutely need them to do GitOps right.
+
+
+1. Declarative Everything:
+---------------------------
+
+- By leveraging a declarative format, you can describe how your infrastructure works as well as the applications that are running on top of it. 
+- Doing this enables traceability of changes made to any environment and enables rollback, recoverability, and self-healing attributes using any
+  source control system. 
+- Move away for imperative adhoc scripts to declarative configuration in all levels (app and infra).
+
+
+2. V for Versioning:
+---------------------
+- Declarative descriptions stored within the repository supports immutability, versioning, and versioning history. 
+- For example, using Git for the declarations mentioned above, allows you a single place from which everything for 
+  your application is derived and driven. This allows you to easily pinpoint any changes made at any time. 
+- Don’t try to understand what is different between two environments by hand. 
+- Just look at all changes found in version control history, having the guarantee that the platform always matches what is described there
+
+
+3. Auto-Pull:
+--------------
+- Using GitOps means that you employ software agents that are always running in the cluster, automatically pulling Git state at regular intervals 
+  and checking it against the live cluster state. 
+- This way you always know if the version in Git is the same as the live state or not.
+
+
+4.Loop the Loop:
+-----------------
+- Operating in a close loop ensuring the desired state of a system matches the declared state. 
+- This is one of the most important features because it provides feedback allowing you and your team to better control your operations and workflow.
+- When used with your repository, GitOps software agents can perform various functions, ensuring self-healing. 
+- Agents automate fixes in case there’s an outage, perform QA processes for your workflow, and protect against human error or a manual intervention.
+

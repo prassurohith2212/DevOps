@@ -1,0 +1,68 @@
+
+10. Integrating J-Frog Artifactory with Jenkins :
+=================================================
+
+1. pre-requisites
+-------------------
+. An Artifactory server Click here to setup
+. A Jenkins Server Click here to setup
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+2. Integration Steps:
+-----------------------
+1. Login to Jenkins to integrate Artifactory with Jenkins
+
+2. Install "Artifactory" plug-in
+Manage Jenkins -> Jenkins Plugins -> available -> artifactory
+
+3. Configure Artifactory server credentials.
+
+Manage Jenkins -> Configure System -> Artifactory
+Artifactory Servers
+Server ID : Artifactory-Server
+URL : Artifactory Server URL
+Username : admin
+Password : `admin@123
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+3. Create a Freestyle Project
+------------------------------
+
+1.Create a new job
+
+Job Name : artifactory-project
+
+Source code management
+-----------------------
+Git URL : get URL here
+
+Build Environment
+-----------------
+Maven3-Artifactory Integration : `<provide Artifactory server and repository details
+Build --> Invoke Artifactory Maven3
+- Goals:  clean install
+
+2.Execute job
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+4. Create a new job
+---------------------
+1.Craete Job:
+-------------
+Job Name : artifactory-project
+
+Source code management
+Git URL : get URL here
+
+Build Environment
+Resolve artifacts from Artifactory : <provide Artifactory server and repository details>
+
+Build - Goals:  clean install
+
+Post-build Actions
+Deploy Artifacts to Artifactory : <provide Artifactory server and repository details>
+
+2. Execute job
+----------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,38 @@
+
+7. How to Create a New Build Job in Jenkins Freestyle Project:
+==============================================================
+
+1. What is a Jenkins Freestyle Project?
+----------------------------------------
+. Jenkins Freestyle Project is a repeatable build job, script, or pipeline that contains steps and post-build actions. 
+. It is an improved job or task that can span multiple operations. 
+. It allows you to configure build triggers and offers project-based security for your Jenkins project. 
+. It also offers plugins to help you build steps and post-build actions.
+
+
+2. How to Create a New Build Job in Jenkins
+--------------------------------------------
+Step 1) Login to Jenkins
+
+Step 2) Create New Item
+
+.Click on “New Item” at the top left-hand side of your dashboard.
+
+Step 3) Enter Item details
+. In the next screen,
+. Enter the name of the item you want to create. We shall use the “Hello world” for this demo.
+. Select Freestyle project
+. Click Okay
+
+Step 4) Enter Project details
+. Enter the details of the project you want to test.
+
+Step 5) Enter repository URL
+
+. Under Source Code Management, Enter your repository URL. 
+  We have a test repository located at https://github.com/kriru/firstJava.git
+
+Step 7) Save the project
+. When you have entered all the data,
+. Click Apply
+. Save the project.

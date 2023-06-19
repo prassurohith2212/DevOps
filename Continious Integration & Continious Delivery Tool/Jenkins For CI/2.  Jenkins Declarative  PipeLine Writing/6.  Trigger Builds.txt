@@ -1,0 +1,132 @@
+
+6. Build Triggers:
+====================
+
+1. What is Build Triggers:
+============================
+
+. Trigger Jobs from Pipeline Script.
+. How to trigger second build, even first build fails.
+. How to change build result.
+. Call a job by passing parameters.
+
+ 
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Trigger Other Jobs:
+==========================
+. Trigger jobs from Pipeline Script.
+. We used build('jobname') option.
+
+Example:
+--------
+. Create two jobs  job1 & job2.
+
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build(job1)              // this build option will call your other builds to execute.
+			   build(job2)
+      
+                  }
+                }
+       }
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. How to Trigger 2 job even if first job fails:
+=================================================
+. you have to use propegate=false option in build option.
+
+Example:
+--------
+. Create two jobs  job1 & job2.
+
+
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build('job1', propegate=false)                           // even if ur first job fails ur second job will still executed.
+			   build(job2)
+      
+                  }
+                }
+       }
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. How to change Build Result.
+===============================
+. We will create a variable and store the result of job into it.
+
+. jobresult =  build("job2", propagate: false).result
+
+
+
+Example::
+---------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   jobresult=build('job1', propegate=false).result             //Changing job result failure to unstable.			   
+			   build(job2)
+			   if (jobresult=="FAILURE)"{
+			      currentBuild.result="UNSTABLE"
+			   }
+			       
+      
+                  }
+                }
+       }
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Trigger Other Jobs with Parameters:
+======================================
+

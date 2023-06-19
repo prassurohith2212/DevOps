@@ -1,0 +1,55 @@
+
+3. Jenkins | Global Tool Configuration :
+==========================================
+
+3.1. Global Tool Configuration:
+==================================
+
+1. Click the "Manage Jenkins" link.
+2. Click the "Global Tool Configuration" link.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+3.2. Java JDK Configuration :
+===============================
+
+1. To add a new JDK installation, Click the "Add JDK" button.
+2. Set the following properties:
+
+Uncheck "Install automatically"
+Name: openjdk-11.0.2_linux-x64
+JAVA_HOME: /opt/openjdk-11.0.2_linux-x64
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+3.3. Sonar Qube Configuration :
+===================================
+1. To add new SonarQube Scanner installation, Click the "Add SonarQube Scanner" button.
+2. Set the following properties:
+
+- Uncheck "Install automatically"
+- Name: SonarQube-Scanner
+- SONAR_RUNNER_HOME: /opt/sonar-scanner
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+3.4. Maven :
+=============
+1. To add a new Maven installation, Click the "Add Maven" button.
+2. Set the following properties:
+
+- Uncheck "Install automatically"
+- Name: apache-maven
+- MAVEN_HOME: /opt/apache-maven
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.5. Git Congiguration:
+=======================
+1. To add a new git installation, Click the "Add git" button.
+2. Set the following properties:
+
+- Name : Default
+- path to git Executable:  git 
+
+------------------------------------------------------------------------------------------------------------------------------------------

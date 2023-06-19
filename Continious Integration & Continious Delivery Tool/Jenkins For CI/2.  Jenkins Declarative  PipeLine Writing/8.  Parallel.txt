@@ -1,0 +1,54 @@
+
+9. Parallel:
+=============
+
+1. Multiple Steps Section Under Same Stage:
+==============================================
+- No.
+- You have to use Parallel Builds as show below.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Parallel Builds:
+===================
+. can run job1 & job2 paralelly to if there is no dependencys.
+
+Example:
+--------
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+triggers{
+
+   cron('*****')                                    
+
+}
+parallel{                                  // can run job1 & job2 paralelly to if there is no dependencys.
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build(job1)            
+			   build(job2)
+      
+                  }
+                }
+       }
+}
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Parallel Stages:
+====================
+ 

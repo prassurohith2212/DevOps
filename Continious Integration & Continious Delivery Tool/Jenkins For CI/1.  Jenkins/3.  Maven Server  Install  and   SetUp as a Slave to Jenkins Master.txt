@@ -1,0 +1,94 @@
+
+
+3. Maven Installation and Configure as a Slave for Jenkins CI/CD Server:
+==========================================================================
+
+1. Prerequsites:
+===================
+Jave Jdk Installation.
+-----------------------
+
+# cd /opt/
+# wget https://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7/jdk-11.0.1_linux-x64_bin.tar.gz
+# tar -xvf    jdk-11.0.1_linux-x64_bin.tar.gz
+# ls 
+# cd jdk-11.0.1
+
+- Setting environmental variable for java.
+
+
+
+# vi /etc/profile.d/java.sh
+
+export JAVA_HOME=/opt/java/jdk1.8.0_201
+export PATH=${JAVA_HOME}/bin:${PATH}
+
+:wq!
+
+# source /etc/profile.d/java.sh
+# java -version
+
+
+*****************************************************************************************************************************************
+
+2. Maven Installation on Aws Ec2 Instance:
+===========================================
+
+# cd /opt
+# mkdir mvn
+# cd /opt/mvn
+# wget http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+# tar -xvf apache-maven-3.5.4-bin.tar.gz
+# ls
+# apache-maven-3.5.4
+# mv apache-maven-3.5.4  apache-maven
+
+- setting environment variables for maven
+
+
+# cd /etc/profile.d/
+
+# vim maven.sh
+
+# Apache Maven Environment Variables
+# MAVEN_HOME for Maven 1 - M2_HOME for Maven 2
+
+export M2_HOME=/opt/mvn/apache-maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+:wq!
+
+
+# chmod +x maven.sh
+# source /etc/profile.d/maven.sh
+
+- Verify maven. 
+----------------
+# mvn
+# mvn --version
+
+****************************************************************************************************************************************************************
+3. Maven Build Server Integration with Jenkins as a Slave:
+============================================================
+Maven Server End:
+------------------
+1. Create a jenkins user in jenkins Master Server & add user to Sudoers file to make access of all commands.
+2. Enable Password Login in Maven build Server.
+
+
+jenkins Server enb:
+--------------------
+1. Login to Jenkins.
+2. Install plugins related to  Maven like : Maven Integration, Maven Invoker.
+3. Manage jenkins --->> Manage Nodes & Cloud ---->> Add a New Node ---->> Name Agent & Select Permanent Agent-->>Ok.
+   Name             : Maven Build Server as a Slave
+   Description      : Its a Slave Server.
+   # of executors   : 5 no of builds at paralelly.
+   Remote Directory : /home/jenkins  dir in Maven Build Server.
+   Launch method    : Launch agents via SSH.
+   Credentials      : jenkins user creds in maven server.
+   Host Key verification : Non verifying Verification Strategy.
+
+4. Verify.
+
+*******************************************************************************************************************************************

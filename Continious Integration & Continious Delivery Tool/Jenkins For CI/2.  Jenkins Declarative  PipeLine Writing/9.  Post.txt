@@ -1,0 +1,98 @@
+
+9. Post:
+=========
+
+1. What is Post:
+===================
+- Will Execute after the completion of pipeline stages section contains following blocks.
+
+- AlWays
+- Changed
+- Fixed
+- Regression
+- Aborted
+- Failure
+- Success.
+
+
+Example-1: AlWays, Changed, Fixed.
+====================================
+Always  : runs always, wont depend upon the build resiult.
+Changed : runs only if current build status changed when compare to previous build.
+Fixed   : Current status is success and Previous status is Failed. 
+
+
+pipeline {
+
+agent any
+
+options {
+   
+   buildDiscarder(logRotator(numToKeepStr:'2'))             
+   timeout(time:10, units:'SECONDS')          
+   timestamps()                                    
+  }
+
+triggers{
+
+   cron('*****')                                    
+
+}
+parallel{                                  // can run job1 & job2 paralelly to if there is no dependencys.
+stages {
+        stage('Build OtherJobs') {                                                
+            steps {
+               
+			   build(job1)            
+			   build(job2)
+      
+                  }
+                }
+       }
+	   
+	post {
+	     always {
+		 
+		 echo "print always"
+		 
+		 }
+		 changed{
+		 
+		 echo " There is a change innthe build status when compare to previous build."
+		 
+		 
+		 }
+		 
+		 fixed {
+		 
+		 echo "previous Build, end this build is Success: good Job"
+		 
+		 }
+		 
+	
+	}
+	
+	
+}
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Example-2: Regression, Abrot, Failure.
+========================================
+Regression  : If current status is fail/unstable/aborted and previous run is success.
+
+Aborted     : if current is aborted.
+
+Failure     : runs only if the current build is failed.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Example-3: Success, Unstable, Cleanup:
+=======================================
+Success  : Current Build is Success.
+Unstable : Current Build is unstable.
+Cleanup  : like always , will execute at every time in the last.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
