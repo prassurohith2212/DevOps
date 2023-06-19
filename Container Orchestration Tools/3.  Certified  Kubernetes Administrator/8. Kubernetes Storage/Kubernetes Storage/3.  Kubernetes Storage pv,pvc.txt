@@ -1,0 +1,241 @@
+
+3. Kubernetes Storage:
+=======================
+
+3.1. Kubernetes Volumes:
+==========================
+-  A volume can be thought of as a directory which is accessible to the containers in a pod. 
+-  We have different types of volumes in Kubernetes and the type defines how the volume is created and its content.
+
+- A k8's Volumes is Eventually a Directory Accessible to all Containers running in a Pod.
+- The data volume  preserved across container restart.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3.2. Types of Kubernetes Volume :
+==================================
+1. EmptyDir:
+--------------
+- It is a type of volume that is created when a Pod is first assigned to a Node. 
+- It remains active as long as the Pod is running on that node. 
+- The volume is initially empty and the containers in the pod can read and write the files in the emptyDir volume. 
+- Once the Pod is removed from the node, the data in the emptyDir is erased.
+
+2. HostPath :
+---------------
+- This type of volume mounts a file or directory from the host node’s filesystem into your pod.
+
+3. gcePersistentDisk:
+----------------------
+- This type of volume mounts a Google Compute Engine (GCE) Persistent Disk into your Pod. 
+- The data in a gcePersistentDisk remains intact when the Pod is removed from the node.
+
+4. awsElasticBlockStore:
+-------------------------
+- This type of volume mounts an Amazon Web Services (AWS) Elastic Block Store into your Pod. 
+- Just like gcePersistentDisk, the data in an awsElasticBlockStore remains intact when the Pod is removed from the node.
+
+5. Nfs:
+-------
+- An nfs volume allows an existing NFS (Network File System) to be mounted into your pod. 
+- The data in an nfs volume is not erased when the Pod is removed from the node. 
+- The volume is only unmounted.
+
+6. Iscsi :
+-----------
+- An iscsi volume allows an existing iSCSI (SCSI over IP) volume to be mounted into your pod.
+
+7. PersistentVolumeClaim:
+--------------------------
+- A persistentVolumeClaim volume is used to mount a PersistentVolume into a pod. 
+- PersistentVolumes are a way for users to “claim” durable storage (such as a GCE PersistentDisk or an iSCSI volume) 
+  without knowing the details of the particular cloud environment.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.3. Persistent Volume and Persistent Volume Claim :
+=====================================================
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.4.Persistent Volume:
+======================
+
+1. Introduction:
+----------------
+- It’s a piece of network storage that has been provisioned by the administrator. 
+- It’s a resource in the cluster which is independent of any individual pod that uses the PV.
+- PersistentVolume is a piece of storage in the cluster that has been provisioned by an admin or dynamically provisioned using "Storage Classes".
+- User or Admin can create large pool of storage & pods will use some piece of storage from storagepool.
+- Now users will select volumes from storage pool & implement on pod using PersistentVolumeClaim.
+
+
+2. Create pv-yaml:
+-------------------
+
+# cat pv.yml
+
+kind: PersistentVolume ---------> 1
+apiVersion: v1
+metadata:
+   name: pv0001 ------------------> 2
+   labels:
+      type: local
+spec:
+   capacity: -----------------------> 3
+      storage: 10Gi ----------------------> 4
+   accessModes:
+      - ReadWriteOnce -------------------> 5
+      hostPath:
+         path: "/tmp/data01" --------------------------> 6
+
+
+kind: PersistentVolume → We have defined the kind as PersistentVolume which tells kubernetes that the yaml file being used is to create the Persistent Volume.
+------
+name: pv0001 → Name of PersistentVolume that we are creating.
+-----
+capacity: → This spec will define the capacity of PV that we are trying to create.
+----------
+storage: 10Gi → This tells the underlying infrastructure that we are trying to claim 10Gi space on the defined path.
+--------
+ReadWriteOnce → This tells the access rights of the volume that we are creating.
+--------------
+path: "/tmp/data01" → This definition tells the machine that we are trying to create volume under this path on the underlying infrastructure.
+------
+
+
+3. Creating PV :
+-----------------
+# kubectl create –f local-01.yaml
+
+ persistentvolume "pv0001" created
+ 
+
+4. Checking PV:
+----------------
+# kubectl get pv
+
+NAME        CAPACITY      ACCESSMODES       STATUS       CLAIM      REASON     AGE
+pv0001        10Gi            RWO         Available                            14s
+
+
+5. Describing PV:
+-------------------
+# kubectl describe pv pv0001
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+STEP 2:
+========
+
+3.5.Creating Persistent Volume Claim:
+=====================================
+
+1. Persistent Volume Claim (PVC):
+----------------------------------
+- Its a request for storage by a user.It is similar to a pod.
+- The storage requested by Kubernetes for its pods is known as PVC. 
+- Pod consumes Node resources. PVC consumes PVS resources.
+- The user does not need to know the underlying provisioning. 
+- The claims must be created in the same namespace where the pod is created.
+- Pvc can request specific size & access modes.
+  [ eg: they can be mounted Read, Write Once, ReadOnlyMany or ReadWriteMany ]
+- Please check about Access Modes.
+- K8 binds pv to pvc based on req properties sets on volumes.
+- Every persistentvolume should be bounded to single Pvc.
+- During Binding process k8 finds volume that have sufficient capacity, Access Modes, Volume Modes, Storage Class etc.
+- You can use labels & selectors to fing exact match.
+- for each pv one pvc will be bounded.
+- If no pv present for pvc status will be on pending state once volumes are available the claims will automatically Bounded to Pvs.
+
+
+2. Create pvc.yaml:
+--------------------
+
+# cat pv-pvc.yaml
+
+kind: PersistentVolumeClaim --------------> 1
+apiVersion: v1
+metadata:
+   name: myclaim-1 --------------------> 2
+spec:
+   accessModes:
+      - ReadWriteOnce ------------------------> 3
+   resources:
+      requests:
+         storage: 3Gi ---------------------> 4
+
+
+kind: PersistentVolumeClaim → It instructs the underlying infrastructure that we are trying to claim a specified amount of space.
+-----
+name: myclaim-1 → Name of the claim that we are trying to create.
+-----
+ReadWriteOnce → This specifies the mode of the claim that we are trying to create.
+----------------
+storage: 3Gi → This will tell kubernetes about the amount of space we are trying to claim.
+--------
+
+
+3. Creating PVC:
+-----------------
+# kubectl create –f myclaim-1
+
+persistentvolumeclaim "myclaim-1" created
+
+
+4. Getting Details About PVC:
+-----------------------------
+# kubectl get pvc
+
+NAME        STATUS   VOLUME   CAPACITY   ACCESSMODES   AGE
+myclaim-1   Bound    pv0001     10Gi         RWO       7s
+
+
+5. Describe PVC:
+------------------
+$ kubectl describe pv pv0001
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+STEP 3:
+========
+
+3.6. Using PV and PVC with POD :
+==================================
+1. Craete pod-pv-pvc.yml
+-------------------------
+# cat pv-pvc.yaml
+
+kind: Pod
+apiVersion: v1
+metadata:
+   name: mypod
+   labels:
+      name: frontendhttp
+spec:
+   containers:
+   - name: myfrontend
+      image: nginx
+      ports:
+      - containerPort: 80
+         name: "http-server"
+      volumeMounts: ----------------------------> 1
+      - mountPath: "/usr/share/tomcat/html"
+         name: mypd
+   volumes: -----------------------> 2
+      - name: mypd
+         persistentVolumeClaim: ------------------------->3
+         claimName: myclaim-1
+
+
+volumeMounts: This is the path in the container on which the mounting will take place.
+-------------
+Volume:  This definition defines the volume definition that we are going to claim.
+-------
+persistentVolumeClaim: Under this, we define the volume name which we are going to use in the defined pod.
+----------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

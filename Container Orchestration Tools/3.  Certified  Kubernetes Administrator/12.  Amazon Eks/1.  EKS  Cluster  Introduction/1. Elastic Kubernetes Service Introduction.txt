@@ -1,0 +1,58 @@
+
+1. Amazon Elastic Kubernetes Services :
+========================================
+
+1.1. What is Amazon EKS?
+===========================
+- Amazon EKS is a managed service that helps make it easier to run Kubernetes on AWS. 
+- Through EKS, organizations can run Kubernetes without installing and operating a Kubernetes control plane or worker nodes. 
+- Simply put, EKS is a managed containers-as-a-service (CaaS) that drastically simplifies Kubernetes deployment on AWS.
+
+1.2. How  EKS Works ?
+=======================
+- The simplest way to look at EKS is that it’s AWS’ offering for Kubernetes-as-a-service. 
+- As mentioned, EKS significantly simplifies the management and maintenance of highly-available Kubernetes clusters in AWS.
+
+
+1.3. Eks Components:
+=======================
+- In each EKS cluster are two main components: Control Plane and Worker Nodes.
+
+1.Control Plane:
+================
+. The Control Plane consists of three Kubernetes master nodes that run in three different availability zones (AZs). 
+. All incoming traffic to Kubernetes API comes through the network load balancer (NLB). 
+. It runs on the virtual private cloud controlled by Amazon. 
+. Hence, the Control Panel can’t be managed directly by the organization and is fully managed by AWS.
+
+
+2. Worker Nodes:
+==================
+. Worner Nodes run on the Amazon EC2 instances in the virtual private cloud controlled by the organization. 
+. Any instance in AWS can be used as a worker node. These worker nodes can be accessed through SSH or provisioned without automation.
+. A cluster of worker nodes runs an organization’s containers while the control plane manages and monitors when and where containers are started.
+. Due to the flexibility of the EKS layout, organizations can deploy a Kubernetes cluster (an EKS cluster) for each application. 
+. Organizations can also use just one EKS cluster to run more than one application via Kubernetes namespaces and AWS IAM configurations.
+
+Note: Worker Nodes can be deployed as 3 ways  1. Self Managed Nodes,  2. Managed Node Group,  3. Fragate Services.  
+------
+
+
+1.4. AWS EKS Pricing:
+=====================
+. Amazon AWS EKS uses a simple pricing model of $0.10 per hour for each EKS cluster you create. 
+. You can run a single AWS EKS cluster on multiple applications, or you can run EKS on AWS with either EC2 or Fargate.
+
+
+
+1.5. Eks integrate with AWS services:
+=======================================
+- IAM
+- Cloud Watch
+- EFS
+- EBS
+- VPC 
+- ALB
+- ELB
+- NLB
+

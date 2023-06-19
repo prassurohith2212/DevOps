@@ -1,0 +1,137 @@
+
+4. Storage Classes:
+=======================
+
+1. What is Storage Classes in Kubernetes:
+=============================================
+- A Kubernetes StorageClass is a Kubernetes storage mechanism that lets you dynamically provision persistent volumes (PV) in a Kubernetes cluster. 
+- Kubernetes administrators define classes of storage, and then pods can dynamically request the specific type of storage they need.
+
+2. Dynamic Provisioning of StorageClass:
+========================================
+- Dynamic volume setup in Kubernetes allows you to construct storage volumes on the fly. 
+- As a result, administrators are no longer need to manually construct new storage volumes and subsequently create a PersistentVolume object for use in the cluster. 
+- When a user requests a particular type of storage, the complete procedure is initiated automatically.
+- As needed, the cluster administrator creates storage class objects. 
+- Each StorageClass denotes a volume plugin, commonly known as a provisioner. 
+- When a user creates a PVC, the provisioner builds a volume based on the storage criteria specified.
+
+
+
+3. Create Storage Classes:
+===========================
+
+1. Create Storage Classes:
+========================
+Example:
+---------
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+
+
+- The name of the StorageClass object is important because it enables requests to that particular class. 
+- Administrators specify class parameters, including the name, when they first create a StorageClass object. 
+- Once an object’s parameters are set, they cannot be updated
+- Every StorageClass has the following fields:
+
+Provisioner      — this is the plugin used to provision the storage 
+volumeParameters — indicate properties of the underlying storage system
+reclaimPolicy    —indicates under what conditions the storage is released by a pod and can be reclaimed for use by other pods
+
+
+1. Provisioner: 
+----------------
+- A StorageClass object contains a provisioner that decides which volume plugin is used to provision PersistentVolumes. 
+- Admins must specify this field.Kubernetes provides internal provisioners, which you can see listed here. 
+- Their names have a kubernetes.io prefix and they are shipped by default as part of Kubernetes
+
+Ex: https://kubernetes.io/docs/concepts/storage/storage-classes/
+
+
+
+2. Parameters:
+---------------
+- Parameters describe volumes belonging to the StorageClass. 
+- The parameters depend on the provisioner plugin and the properties of the underlying storage system.
+- A StorageClass can have at most 512 parameters. The parameters object can have a total length of up to 256 KiB including keys and values.
+
+
+
+3. Reclaim Policy:
+------------------
+- StorageClass can dynamically create PersistentVolumes that specify either Delete or Retain in the class’s reclaimPolicy field. 
+- If there is no specified reclaimPolicy in a StorageClass object (admins must specify it when creating the object), 
+- it is set to Delete by default:
+
+. Setting the reclaim policy to Delete means that the storage volume is deleted when it is no longer required by the pod.
+. Setting the reclaim policy to Retain means that the storage volume is retained when no longer required by the pod and can be reused by other pods. 
+
+- A PersistentVolume that was created manually and managed using a StorageClass retains the reclaim policy assigned to it at creation.
+
+
+
+4. Volume Binding Mode:
+-------------------------
+- The volumeBindingMode field of the StorageClass determines how pods bind to a storage volume. 
+- If it is not set, the Immediate mode is the default. Immediate indicates that dynamic provisioning and binding occur immediately upon the creation 
+  of a PersistentVolumeClaim.
+- A PersistentVolumeClaim is an object that represents a request by a pod for a persistent storage volume.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Operations:
+===============
+
+1. Create Storage Class:
+------------------------
+# vi storage-class.yaml
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+
+
+
+2. Create :
+------------
+
+# kubectl create -f storage-class.yml
+
+
+3. List:
+---------
+
+# kubectl  get sc
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

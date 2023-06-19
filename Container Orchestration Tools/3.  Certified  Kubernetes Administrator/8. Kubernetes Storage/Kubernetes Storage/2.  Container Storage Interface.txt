@@ -1,0 +1,14 @@
+2. Container Storage Interface :
+=================================
+- In the past k8 users docker alone as a container runtime engine & all code works with docker is embedded to k8 source code.
+- When new container runtime came its imp to support to those RKT, CRI-O & to work with diff CRE & not Dependent on k8 Source Code.
+- Thats how CRI Came.
+
+
+- Its a standard that defines how an orchestration solutions like kubernetes communicate CRE like Docker.
+- In Future any New CRE Developed they can simply follows CRI.Standards & New CRE Should work with k8's without interacting with k8 developers or touch the k8 source code.
+- All or any CRE follows CNI & Creates their code & it works for k8.
+- CSI was Developed to support multiple storage solution.
+Ex: portworks, Amazon EBS, DELEMC, GlusterFS.
+- with CSI you can write own drivers to your own solution.
+

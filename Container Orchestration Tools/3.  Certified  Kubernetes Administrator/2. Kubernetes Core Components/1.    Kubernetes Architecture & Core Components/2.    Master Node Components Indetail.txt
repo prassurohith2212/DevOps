@@ -1,0 +1,159 @@
+
+2. Master Node Components Indetail:
+====================================
+
+2.1. Container Run Time Engine:
+===============================
+- CRE is just like an environment to run containers.
+- All Kube-Api components can be deployed as containers on CRE.
+- Example: Docker
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.2. Kube-Api Server:
+=======================
+. Kube-Api Server is the central management entity that receives all REST requests for modifications [to pods, services, replication sets | 
+  controllers & Others] Serving as front-end to the Cluster.
+. When you run a "Kubectl" cmd will reaches to kube-api server.
+. Kubectl utility reaches to kube-api server kube-api first authenticates the req & validates it then retrives the data from etcd cluster & 
+  responds back with a req cmds.
+
+API-Request:
+--------------
+1. Auth User.
+2. Validate Request.
+3. Retrive data.
+4. Update Etcd.
+5. Scheduler 
+6. Kubelet.
+
+. The scheduler continiously monitors kube-api server as realises that the pod has no node assighned & helps to find & identifies right node to place 
+  a new pod on & Communicate that back to kube-api server. then the kube-api server updates info to etcd cluster then api-server passes info to kubelet
+  on worker node.
+. kubelet that creates the pod & instructs the container run time engine to deploy app image once done the kubelet updates status back to kube-api server
+  then it updates to the etcd db.
+
+
+Verify:
+--------
+
+# kubectl get pods -n kube-system
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2.3. Etcd DB :
+=================
+- A Simple distributed key value storage which is used to store the k8's cluster data.
+- such as [no of pods, their state, name spaces etc], api objects & service discovery details.
+
+- It only accessable from the api-server for security reasons.
+- Etcd enables notifications to the cluster about config changes with the help of watchers.
+- Notifications are API-Requests on each etcd cluster node to trigger the update info in the nodes storage.
+
+Key Value Store:
+-----------------
+. It Stores info to a keyvalue format.
+. ex: key=value / no of node = 2.
+. put key & get value.
+
+
+Etcd in K8's:
+--------------
+- Etcd role in k8's is etcd data store info regarding cluster such as - Nodes, Pods, Config, Screats Accounts etc.
+- Every Change when you add Nodes, Pods, etc it will update  to etcd Server.
+
+Cmds:
+-----
+# kubectl get pods -n kube-system
+
+. you can config etcd in HA Environment.
+. etcdctl is a tool used to interact with etcd.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2.4. Kube-Controller Manager:
+===============================
+- It runs a number of distinct controller processes in the BackGround [ For Example: Replication Controllers].
+- A Controller is a processes that continiously monitors the state of various components in the system & work towards bringing the whole system to a desired 
+  function state.
+
+1. Node Controllers:
+---------------------
+- Monitors Node & Keep apps up & running node controller checks the status of nodes for every "5-sec" this way node controller can monitor the node.
+- If stops receiving health check report from node then node will mark as unreachable & waits for 40 sec before marking it unreachable  & after marking as unreachable
+  it gives 5 minutes to come back node. if node doesnt come back it removes pods from that node & provisions pods on Healthy Nodes if pods are a part of "replicaset".
+  
+  Watch Status------->Remidiate Situation-------->Node Monitoring Period: 5-Sec
+  Node Monitor Grace= 40 Sec.
+  
+2. Replication Controller:
+-----------------------
+- It is responsible for monitor status ofreplicaset & ensures that desired state of pods always up & running all time with in set & if anything happend
+  to any pod. it will creates automatically.
+- Like above there are somany controllers below:
+- Deployment controller, Name, EndPoint, Replacement, Pv-Binder, Node Controllers, Service Account Controllers, namespace controllers.
+- Kubernetes controlers are "Brains of Kubernetes"
+- All Controllers are paced with "kube-controller-manager".
+
+
+Verify:
+--------
+
+# kubectl get pods -n kube-system
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2.5. Kube Scheduler :
+======================
+- Scheduler is responsible for scheduling pods on nodes.
+- It only desides which pods goes on which nodes it doesnt actually place pods.
+- Depending on resource requirements - Scheduler trys to find best node for pods as per resource requirements  filter nodes + Rank Nodes.
+
+More Topics:
+-------------
+- Resource Requirements & limits.
+- Taints & Tolerations.
+- Node Selectors & Affinity.
+
+Verify:
+--------
+# kubectl get pods -n kube-system 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

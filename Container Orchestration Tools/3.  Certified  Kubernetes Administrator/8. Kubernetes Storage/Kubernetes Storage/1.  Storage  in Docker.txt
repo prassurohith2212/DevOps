@@ -1,0 +1,195 @@
+1. Storage in Docker:
+=======================
+- To Understand kubernetes storage we have to understand how docker storage works.
+- Docker storage works based on below two.
+  1. Storage Drivers.
+  2. Volume Drivers.
+  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1.1. Storage Drivers:
+=======================
+1. Intro:
+----------
+. To understand storage in container orchestration tools like k8's understand first how storage works on Containers.
+. When it comes to Docker Storage. 1)Storage Drivers 2)Volume Drivers.
+
+
+
+2. Storage in Docker:
+----------------------
+. How Docker stores data in a filesystem. when you install docker on a system it creates folder structure likes below.
+
+- /var/lib/docker
+
+  - Aufs
+  - Containers            : Stores Container files.
+  - Image                 : Image Stores Here.
+  - Volumes               : Stores volumes of Containers.
+
+- Now understand how docker stores files & what format.
+- How exacts does stores data to understand that we need to understand docker layered Architecture.
+
+- When you build docker image from docker file it builds in a layered Approach.
+
+
+
+
+3. Docker File:
+-----------------
+
+#This is a sample Image 
+FROM ubuntu 
+MAINTAINER demousr@gmail.com 
+
+RUN apt-get update 
+RUN apt-get install –y nginx 
+CMD [“echo”,”Image created”]
+
+
+
+Build Docker Image:
+--------------------
+
+# docker build Dockerfile -t prassurohith2212/my_app
+
+
+Layer 1 : Base Ubuntu Layer 
+Layer 2 : Changes in apt-pkgs
+Layer 3 : Changes in pip packages
+Layer 4 : Source Code.
+Layer 5 : Update Entry Point.
+Layer 6 : Container Layer Read Write.
+
+- All are image layers once image is build you cant modify only way to make any change proceed for New Image.
+- Now When you build one more app with same existing name-it wont follow layered Approach- it take base image which is already available.
+- If any changes then it will follow Layered Approach for these changes.
+- It uses cache.
+
+- What happens when you delete container ?
+. All the data related to tht container also can be deleted.
+
+
+
+
+4. How to persist data in Docker for Containers:
+-------------------------------------------------
+
+# docker volume create data-volume<volume-name>
+
+
+
+
+5. Mount Volume:
+-----------------
+# docker run -v data_volume<Volume-Name>:/var/lib/mysql_<Dir>
+
+- Now all your container data will be stored like below.
+- Even if your container got deleted your data will be safe.
+- What if you run docker with volumes mention while running container docker will automatically creates volume.
+
+# docker run -v  data_volume:/var/lib/mysql  mysql
+
+- This is called volume mounting.
+
+
+- What if you have already data on existing volume.
+
+# docker run -v /data/mysql/:/var/lib/mysql mysql
+
+- Thus is called "bind mount"
+
+- you can mount volumes to containers using --mount also.
+
+
+# docker run --mount type=bind, source=/data/mysql  target=/var/lib/mysql mysql
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1.2. Storage Drivers :
+=========================
+. Docker has multiple storage drivers that allow one to work with the underlying storage devices. 
+. The following table shows the different storage drivers along with the technology used for the storage drivers.
+
+
+Technology	       Storage Driver
+----------         ---------------
+OverlayFS	       overlay or overlay2
+AUFS	           aufs
+Btrfs	           brtfs
+Device Manager	   devicemanager
+VFS	               vfs
+ZFS	               zfs
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. Volume Drivers :
+====================
+- Volumes are handled by volume drivers.
+- Default plugin is local.
+- Local Volume plugin helps into create a volume on docker host & Stores data under /var/lib/volume dir.
+- Creates Volumes on Third Party Solutions.
+
+. Local
+. Azure file storage.
+. Convey
+. Digital Ocean Block Storage.
+. Flocker.
+. GCE_Docker
+. NetApp
+. Gluster FS.
+. VMWare Vsphere Storage.
+
+- When you run a container you can choose your volume driver.
+
+# docker run -it --name  mysql  --volume-driver rexray/ebs --mount src=/opt/vid, target=/var/lib/mysql  mysql 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

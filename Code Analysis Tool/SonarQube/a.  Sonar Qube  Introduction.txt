@@ -1,0 +1,77 @@
+
+1. SonarQube Static Code Analysis :
+======================================
+
+1.1.What is SonarQube ?
+---------------------------
+. SonarQube is a Code Quality Assurance tool that collects and analyzes source code, and provides reports for the code quality 
+  of your project. It combines static and dynamic analysis tools and enables quality to be measured continually over time.
+
+. SonarQube reduces the risk of software development within a very short amount of time. 
+. It detects bugs in the code automatically and alerts developers to fix them before rolling it out for production. 
+. SonarQube also highlights the complex areas of code that are less covered by unit tests
+
+
+1.2. How SonarQube works aka SonarQube architecture?
+-----------------------------------------------------
+1. One SonarQube Server starting 3 main processes:
+
+- Web Server for developers, managers to browse quality snapshots and configure the SonarQube instance.
+- Search Server based on Elasticsearch to back searches from the UI.
+- Compute Engine Server in charge of processing code analysis reports and saving them in the SonarQube Database.
+
+2. One SonarQube Database to store:
+
+- the configuration of the SonarQube instance (security, plugins settings, etc.)
+- the quality snapshots of projects, views, etc.
+
+3. Multiple SonarQube Plugins installed on the server, possibly including language, SCM, integration, authentication, 
+   and governance plugins.
+   
+4. One or more SonarScanners running on your Build / Continuous Integration Servers to analyze projects.
+
+
+1.3. Integration
+-----------------
+. The following schema shows how SonarQube integrates with other ALM tools and where the various components of SonarQube are used.
+
+1. Developers code in their IDEs and use SonarLint to run local analysis.
+2. Developers push their code into their favourite SCM : git, SVN, TFVC, …
+3. The Continuous Integration Server triggers an automatic build, and the execution of the SonarScanner 
+   required to run the SonarQube analysis.
+4. The analysis report is sent to the SonarQube Server for processing.
+5. SonarQube Server processes and stores the analysis report results in the SonarQube Database, and displays the results in the UI.
+6. Developers review, comment, challenge their Issues to manage and reduce their Technical Debt through the SonarQube UI.
+7. Managers receive Reports from the analysis. Ops use APIs to automate configuration and extract data from SonarQube. 
+   Ops use JMX to monitor SonarQube Server.
+
+1.4. About Machines and Locations:
+-----------------------------------
+- The SonarQube Platform cannot have more than one SonarQube Server (although the Server can be installed as a cluster) and 
+  one SonarQube Database.
+- For optimal performance, each component (server, database, scanners) should be installed on a separate machine, and the 
+  server machine(s) should be dedicated.
+- SonarScanners scale by adding machines.
+- All machines must be time synchronized.
+- The SonarQube Server and the SonarQube Database must be located in the same network
+- SonarScanners don’t need to be on the same network as the SonarQube Server.
+- There is no communication between SonarScanners and the SonarQube Database.
+
+
+1.5. Use case of  SonarQube?
+------------------------------
+- SonarQube is used as part of the build process (Continuous Integration and Continuous Delivery) in all Java services 
+  to ensure a high quality of code and remove bugs that can be found during static analysis.
+  
+- SonarQube is a Code Quality Assurance tool that collects and analyzes source code, and provides reports for the code quality 
+  of your project. It combines static and dynamic analysis tools and enables quality to be measured continually over time.
+  
+
+1.6. How to Use SonarQube Tool For Code Quality:
+--------------------------------------------------
+Step 1: Download and Unzip SonarQube. Prerequisites: Java (Oracle JRE11 or OpenJDK 11 minimum) …
+Step 2: Run the SonarQube local server. …
+Step 3: Start a new SonarQube project. …
+Step 4: Setup Project properties and SonarScanner. …
+Step 5: View your analysis report on Sonar Dashboard.
+

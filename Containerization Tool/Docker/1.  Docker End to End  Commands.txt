@@ -1,0 +1,190 @@
+
+DOCKER CONTAINERIZATION TOOL:
+=================================
+
+1. Docker Introduction:
+========================
+
+1.1. Docker Intro:
+---------------------
+. Docker is a container management service. The keywords of Docker are develop, ship and run anywhere.
+. The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+
+1.2. Docker Features:
+----------------------
+. Docker has the ability to reduce the size of development by providing a smaller footprint of the operating system via containers.
+. You can deploy Docker containers anywhere, on any physical and virtual machines and even on the cloud.
+. Since Docker containers are pretty lightweight, they are very easily scalable.
+
+1.3.Components of Docker:
+---------------------------
+1. Docker for Linux  − It allows one to run Docker containers on the Linux OS.
+2. Docker Engine     − It is used for building Docker images and creating Docker containers.
+3. Docker Hub        − This is the registry which is used to host various Docker images.
+
+To know about docker:
+---------------------
+# docker version
+# doecker info
+
+*********************************************************************************************************************************************************************************
+
+2. Docker Hub:
+===============
+. Docker Hub is a registry service on the cloud that allows you to download Docker images that are built by other communities.
+. You can also upload your own Docker built images to Docker Hub.
+
+. The official site for Docker hub is − https://www.docker.com/community-edition#/add_ons
+
+Step 1 − First you need to do a simple sign-up on Docker hub.
+Step 2 − Once you have signed up, you will be logged into Docker Hub.
+Step 3 − Next, let’s browse and find the Jenkins image.
+Step 4 − If you scroll down on the same page, you can see the Docker pull command. 
+         This will be used to download the Jenkins image onto the local Ubuntu server.
+Step 5 − Now, go to the Ubuntu server and run the following command −
+
+# sudo docker pull jenkins
+
+. To run Jenkins, you need to run the following command −
+
+#  sudo docker run -p 8080:8080 -p 50000:50000 jenkins 
+
+. You will then have Jenkins successfully running as a container on the Docker Engine on your Linux Server.
+
+*****************************************************************************************************************************************************************************************************
+
+3. Docker Images:
+===================
+3.1. Intro:
+-------------
+. In Docker, everything is based on Images. An image is a combination of a file system and parameters.
+
+# docker run hello-world                   ------>can pull docker image from dockerhub if not available in local machine.
+
+
+3.2. List Images:
+------------------
+
+# docker images                               --------->List all Available images.
+# docker images -q                            --------->List all Available images with IDs.
+# docker image list --filter dangling=true    --------->Used to list all the unused Docker images on your Docker host
+
+
+TAG          − This is used to logically tag images.
+Image ID     − This is used to uniquely identify the image.
+Created      − The number of days since the image was created.
+Virtual Size − The size of the image.
+
+
+3.3. Downloading Docker Images:
+--------------------------------
+# docker run centos 
+# docker pull image-name 
+
+
+3.4. Removing Docker Images:
+-----------------------------
+
+# docker rmi Image-ID             ------->Delete an Image.
+# docker image prune              ------->Remove Unused Images.
+
+
+3.5. docker inspect:
+---------------------
+. This command is used see the details of an image or container.
+
+# sudo docker inspect jenkins-image-name
+
+******************************************************************************************************************************************************************************
+
+4. Docker Containers:
+=======================
+
+4.1. Create a Container :
+--------------------------
+. Running of containers is managed with the Docker run command. 
+
+#  docker run centos-image-name                     ---->To run a container.
+#  docker run –it centos /bin/bash                  ----->To run a container in an interactive mode, first launch the Docker container.
+  Then hit Crtl+p and you will return to your OS shell.
+
+# docker run -it -d <image name>                  ------> Create a container via detach mode.
+
+
+4.2. Listing of Containers:
+---------------------------
+# docker ps                                               ---->list all running containers.
+# docker ps -a                                            ---->list all running and non running containers.
+# docker ps --filter "name=nextcloud_server"              ---->filter containers with names. 
+# docker ps --latest                                      ---->Show containers in the order.
+# docker ps --format "{{.ID}}: {{.Command}}"              ---->List containers with their commands.
+
+
+4.3. docker history:
+---------------------
+. you can see all the commands that were run with an image via a container.
+
+# docker history centos-image 
+
+*****************************************************************************************************************************************************************
+
+5. Working with Containers:
+============================
+. we will explore in detail what we can do with containers.
+
+
+5.1. docker top:
+------------------
+# docker top ContainerID                    --------->You can see the top processes within a container.
+
+
+5.2. docker stop/pause/unpause/start:
+--------------------------------------
+# docker  stop/pause/start   ContainerID                    --------> To stop/pause/unpause/start the container.
+
+
+5.3. docker rm:
+----------------
+# docker rm  ContainerID                      --------> This command is used to delete a container.
+
+
+5.4. docker kill:
+------------------
+# docker kill ContainerID      This command is used to kill the processes in a running container.
+
+
+5.5. Docker – Container Lifecycle:
+----------------------------------
+. The following illustration explains the entire lifecycle of a Docker container.
+
+-Initially, the Docker container will be in the created state.
+- Then the Docker container goes into the running state when the Docker run command is used.
+- The Docker kill command is used to kill an existing Docker container.
+- The Docker pause command is used to pause an existing Docker container.
+- The Docker stop command is used to pause an existing Docker container.
+- The Docker run command is used to put a container back from a stopped state to a running state
+
+*****************************************************************************************************************************************************************************************************
+
+6. Execute Commands inside Docker Container from O.S Shell:
+=============================================================
+
+1. Create a Container with running commands inside:
+-----------------------------------------------------
+# docker run -d --name container-name alpine watch  "date >> /var/log/date.log"
+
+-d                           :   detach mode.
+--name                       :   docker container name
+alphine                      :   light weight OS.
+watch                        :   will repeatedly run the command you give it, every two seconds by default. 
+date >> /var/log/date.log.   :   prints the current date and time.
+
+# docker exec container-name tail /var/log/date.log                 ----> Execute commands inside container.
+# docker exec --workdir /tmp container-name pwd                     ----> Execute commands for perticular directory.
+# docker exec --user guest container-name whoami                    ----> run commands in a container with diff user.
+
+******************************************************************************************************************************************
+
+
+
+

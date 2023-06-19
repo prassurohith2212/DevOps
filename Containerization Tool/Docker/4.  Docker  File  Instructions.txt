@@ -1,0 +1,114 @@
+
+8. Docker File instructions:
+=============================
+
+1. FROM
+--------
+. FROM must be the first non-comment instruction in the Dockerfile.
+. FROM can appear multiple times within a single Dockerfile in order to create multiple images. 
+  Simply make a note of the last image ID output by the commit before each new FROM command.
+. The tag or digest values are optional. If you omit either of them, the builder assumes a latest by default. 
+  The builder returns an error if it cannot match the tag value.
+
+
+Usage:
+
+FROM <image>
+FROM <image>:<tag>
+FROM <image>@<digest>
+
+2. MAINTAINER
+--------------
+. The MAINTAINER instruction allows you to set the Author field of the generated images.
+
+MAINTAINER <name>
+
+
+3. RUN
+-------
+. The exec form makes it possible to avoid shell string munging, and to RUN commands using a base image that does not contain the specified shell executable.
+. The default shell for the shell form can be changed using the SHELL command.
+. Normal shell processing does not occur when using the exec form. 
+. For example, RUN ["echo", "$HOME"] will not do variable substitution on $HOME.
+
+Usage:
+
+RUN <command> (shell form, the command is run in a shell, which by default is /bin/sh -c on Linux or cmd /S /C on Windows)
+RUN ["<executable>", "<param1>", "<param2>"] (exec form)
+
+
+4. CMD:
+--------
+. The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, 
+  in which case you must specify an ENTRYPOINT instruction as well.
+. There can only be one CMD instruction in a Dockerfile. If you list more than one CMD then only the last CMD will take effect.
+. If CMD is used to provide default arguments for the ENTRYPOINT instruction, both the CMD and ENTRYPOINT instructions should be specified with the JSON array format.
+. If the user specifies arguments to docker run then they will override the default specified in CMD.
+. Normal shell processing does not occur when using the exec form. For example, CMD ["echo", "$HOME"] will not do variable substitution on $HOME.
+
+Usage:
+
+CMD ["<executable>","<param1>","<param2>"] (exec form, this is the preferred form)
+CMD ["<param1>","<param2>"] (as default parameters to ENTRYPOINT)
+CMD <command> <param1> <param2> (shell form)
+
+
+
+5. EXPOSE:
+-----------
+. Informs Docker that the container listens on the specified network port(s) at runtime.
+. EXPOSE does not make the ports of the container accessible to the host.
+
+Usage:
+
+EXPOSE <port> [<port> ...]
+
+
+6. ENV :
+---------
+. The ENV instruction sets the environment variable <key> to the value <value>.
+. The value will be in the environment of all “descendant” Dockerfile commands and can be replaced inline as well.
+. The environment variables set using ENV will persist when a container is run from the resulting image.
+. The first form will set a single variable to a value with the entire string after the first space being treated as the <value> - 
+  including characters such as spaces and quotes.
+
+
+Usage:
+
+ENV <key> <value>
+ENV <key>=<value> [<key>=<value> ...]
+
+
+7. COPY:
+----------
+. Copies new files or directories from <src> and adds them to the filesystem of the image at the path <dest>.
+. <src> may contain wildcards and matching will be done using Go’s filepath.Match rules.
+. <src> must be relative to the source directory that is being built (the context of the build).
+. <dest> is an absolute path, or a path relative to WORKDIR.
+. If <dest> doesn’t exist, it is created along with all missing directories in its path.
+
+Usage:
+
+COPY <src> [<src> ...] <dest>
+COPY ["<src>", ... "<dest>"] (this form is required for paths containing whitespace)
+
+
+8. USER:
+---------
+. The USER instruction sets the user name or UID to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow it in the Dockerfile.
+
+
+Usage:
+
+USER <username | UID>
+
+
+9. SHELL: 
+----------
+. Allows the default shell used for the shell form of commands to be overridden.
+. Each SHELL instruction overrides all previous SHELL instructions, and affects all subsequent instructions.
+. Allows an alternate shell be used such as zsh, csh, tcsh, powershell, and others.
+
+Usage:
+
+SHELL ["<executable>", "<param1>", "<param2>"]

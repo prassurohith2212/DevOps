@@ -1,0 +1,41 @@
+
+7. DOCKER LOGGING:
+===================
+
+. Docker has logging mechanisms in place which can be used to debug issues as and when they occur. 
+. There is logging at the daemon level and at the container level. Let’s look at the different levels of logging.
+
+7.1. Daemon Logging:
+======================
+. At the daemon logging level, there are four levels of logging available −
+
+Debug    − It details all the possible information handled by the daemon process.
+Info     − It details all the errors + Information handled by the daemon process.
+Errors   − It details all the errors handled by the daemon process.
+Fatal    − It only details all the fatal errors handled by the daemon process.
+
+Step 1 − First, we need to stop the docker daemon process, if it is already running. It can be done using the following command −
+------
+# service docker stop
+
+Step 2 − Now we need to start the docker daemon process. But this time, we need to append the –l parameter to specify the logging option.
+-------  So let’s issue the following command when starting the docker daemon process.
+
+#  dockerd –l debug &
+
+. Once you start the Docker process with logging, you will also now see the Debug Logs being sent to the console.
+
+*******************************************************************************************************************************************
+
+7.2. Container Logging :
+=========================
+. Logging is also available at the container level. So in our example, let’s spin up an Ubuntu container first. 
+  We can do it by using the following command.
+
+# docker run –it ubuntu /bin/bash
+
+# docker logs 6bfb1271fcdd 
+
+. From the output, you can see that the commands executed in the container are shown in the logs.
+
+*******************************************************************************************************************************************

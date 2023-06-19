@@ -1,0 +1,97 @@
+
+7. Docker File:
+================
+
+.  In real time you need your own docker image which runs your application.
+.  Docker also gives you the capability to create your own Docker images, and it can be done with the help of Docker Files. 
+.  A Docker File is a simple text file with instructions on how to build your images.
+
+The following steps explain how you should go about creating a Docker File.
+
+Step 1:
+-------
+. Create a file called Docker File and edit it using vim. 
+. Please note that the name of the file has to be "Dockerfile" with "D" as capital.
+
+# vi Dockerfile
+
+
+Step 2:
+-------- 
+. Build your Docker File using the following instructions.
+
+#This is a sample Image 
+FROM ubuntu 
+MAINTAINER demousr@gmail.com 
+
+RUN apt-get update 
+RUN apt-get install –y nginx 
+CMD [“echo”,”Image created”] 
+
+
+Step 3: 
+-------
+. Save the file. In the next chapter, we will discuss how to build the image.
+
+
+Step 4:
+--------
+. It’s now time to build the Docker File. The Docker File can be built with the following command  "docker build".
+
+
+# docker build  -t ImageName:TagName dir
+
+
+-t − is to mention a tag to the image
+ImageName − This is the name you want to give to your image.
+TagName − This is the tag you want to give to your image.
+Dir − The directory where the Docker File is present.
+
+
+Step 5:
+--------
+. Push your above created Docker Image to DockerHuB.
+
+# docker login
+# docker push demousr/demorep:1.0
+ 
+
+Step 6:
+--------
+. Pull above docker image from repository.
+
+# docker pull demousr/demorep:1.0
+
+
+Step 7:
+--------
+. Create a Docker Container.
+
+# docker run -it centos  /bin/bash
+
+*************************************************************************************************************************************************************
+
+Example:  Docker file to Install a Tomcat on centos image:
+==========================================================
+
+FROM centos
+
+MAINTAINER hello@gritfy.com
+
+RUN mkdir /opt/tomcat/
+
+WORKDIR /opt/tomcat
+RUN curl -O https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
+RUN tar xvfz apache*.tar.gz
+RUN mv apache-tomcat-8.5.40/* /opt/tomcat/.
+RUN yum -y install java
+RUN java -version
+
+WORKDIR /opt/tomcat/webapps
+RUN curl -O -L https://github.com/AKSarav/SampleWebApp/raw/master/dist/SampleWebApp.war
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------

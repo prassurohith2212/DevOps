@@ -1,0 +1,77 @@
+
+3. Worker Node Components Indetail:
+====================================
+- Where all Work Load Deployments can be placed.
+
+
+3.1. Container Runtime Engine:
+================================
+- CRE is just like an environment to run containers.
+- All Kube-Api components can be deployed as containers on CRE.
+- Example: Docker
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3.2. Kubelet:
+==============
+
+- Kubelet is Captain of the Worker Node.
+- Kubelet in the kubernetes registers the worker nodes to master nodes.
+- When kubectl receives a req to deploy a pod then kubelet requires docker runtime engine to deploy pod & response back to kube-api server.
+- Kubelet will collect all Node info & Pods info which is deployed on Worker Nodes reports will share back to kube-api server.
+
+Verify: 
+--------
+
+# ps -aux | grep kubelet
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.3. KubeProxy:
+=================
+- With in a K8 Cluster every pod can reach to other pod this is acomplished by a pod N/W Solution to the Cluster.
+- pod N/W is an internal virtual N/W expands across all the nodes in the cluster to all pods get connected.
+- Through N/W you can communication with eachother.
+- There are many solutions available to deploy pod N/W's.
+
+Example:
+---------
+- To make communication for pods from outside world kube proxy will create service & accessable from outside.
+- It uses IP Tables.
+
+
+Verify:
+---------
+
+# ps -aux | grep kube-proxy
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

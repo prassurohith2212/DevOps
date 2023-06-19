@@ -1,0 +1,66 @@
+
+1. SONAR QUBE INSTALLATION ON DOCKER ENGINE :
+===============================================
+
+1.1. Prerequisites:
+-------------------
+
+1. Create a GCP CentSO 7 Linux Instance
+2. Install & Configure Docker Engine.
+
+
+1.2. Docker Host Requirements:
+-------------------------------
+sysctl -w vm.max_map_count=524288
+sysctl -w fs.file-max=131072
+ulimit -n 131072
+ulimit -u 8192
+
+
+1.3. Docker  volumes
+----------------------
+. We recommend creating volumes for the following directories:
+
+/opt/sonarqube/data: data files, such as the embedded H2 database and Elasticsearch indexes
+/opt/sonarqube/logs: contains SonarQube logs about access, web process, CE process, Elasticsearch logs
+/opt/sonarqube/extensions: for 3rd party plugins
+Warning: You cannot use the same volumes on multiple instances of SonarQube.
+
+
+# docker volume create --name sonarqube_data
+
+
+1.4. Docker Image Download for SonarQube:
+-------------------------------------------
+# docker search sonarqube
+
+# docker image pull sonarqube:latest
+
+# docker images
+  
+
+1.5. Create SonarQube Docker Container  with Port,Volumes.
+-----------------------------------------------------------
+
+# docker container run -d  --name sonarqube -p 9000:9000 sonarqube:latest
+
+# docker run -d --name sonarqube -p 9000:9000 --volume sonarqube_data:/sonarqube  sonarqube:latest
+
+
+# docker ps
+
+
+1.6. Make SonarQube Container Starts from Boot:
+--------------------------------------------------
+
+# vi /etc/profile.d/sonarqubestart.sh
+
+docker start XXXXXXXXX
+
+:wq!
+
+
+# chmod 777  /etc/profile.d/sonarqubestart.sh
+# source  /etc/profile.d/sonarqubestart.sh
+
+

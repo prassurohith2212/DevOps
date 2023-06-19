@@ -1,0 +1,172 @@
+
+9. Deployments in Kubernetes:
+==============================
+
+9.1. Deployment Intro:
+========================
+- Deployments are upgraded and higher version of replication controller. 
+- They manage the deployment of replica sets which is also an upgraded version of the replication controller. 
+- They have the capability to update the replica set and are also capable of rolling back to the previous version.
+
+- They provide many updated features of matchLabels and selectors. 
+- We have got a new controller in the Kubernetes master called the deployment controller which makes it happen. 
+- It has the capability to change the deployment midway.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9.2. Changing the Deployment:
+=============================
+
+1. Updating:
+-------------
+- The user can update the ongoing deployment before it is completed. 
+- In this, the existing deployment will be settled and new deployment will be created.
+
+2. Deleting: 
+-------------
+- The user can pause/cancel the deployment by deleting it before it is completed. 
+- Recreating the same deployment will resume it.
+
+3. Rollback:
+-------------
+- We can roll back the deployment or the deployment in progress. 
+- The user can create or update the deployment by using
+
+
+DeploymentSpec.PodTemplateSpec = oldRC.PodTemplateSpec.
+--------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+9.3. Deployment Strategies :
+===============================
+- Deployment strategies help in defining how the new RC should replace the existing RC.
+
+1. Recreate :
+-------------
+- This feature will kill all the existing RC and then bring up the new ones. 
+- This results in quick deployment however it will result in downtime when the old pods are down and the new pods have not come up.
+
+2. Rolling Update:
+--------------------
+
+- This feature gradually brings down the old RC and brings up the new one. 
+- This results in slow deployment, however there is no deployment. 
+- At all times, few old pods and few new pods are available in this process.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9.4. Create Deployment:
+========================
+- Create Deployment to rollout a ReplicaSet
+- Verify Deployment, ReplicaSet & Pods
+- Docker Image Location: https://hub.docker.com/repository/docker/stacksimplify/kubenginx
+
+
+
+1. Create Deployment:
+----------------------
+# kubectl create deployment <Deplyment-Name> --image=<Container-Image>
+# kubectl create deployment my-first-deployment --image=stacksimplify/kubenginx:1.0.0 
+
+2. Verify Deployment:
+---------------------
+# kubectl get deployments
+# kubectl get deploy 
+
+3. Describe Deployment:
+------------------------
+# kubectl describe deployment <deployment-name>
+# kubectl describe deployment my-first-deployment
+
+4. Verify ReplicaSet:
+----------------------
+# kubectl get rs
+
+5. Verify Pod:
+----------------
+# kubectl get pod
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9.5. Scaling a Deployment:
+===========================
+
+- Scale the deployment to increase the number of replicas (pods).
+
+1. Scale Up the Deployment:
+----------------------------
+
+# kubectl scale --replicas=20 deployment/<Deployment-Name>
+# kubectl scale --replicas=20 deployment/my-first-deployment 
+
+2. Verify Deployment:
+---------------------
+# kubectl get deploy
+
+3. Verify ReplicaSet
+---------------------
+
+# kubectl get rs
+
+4. Verify Pods
+---------------
+
+# kubectl get po
+
+5. Scale Down the Deployment
+------------------------------
+# kubectl scale --replicas=10 deployment/my-first-deployment 
+# kubectl get deploy
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9.6. Expose Deployment as a Service:
+======================================
+
+- Expose Deployment with a service (NodePort Service) to access the application externally (from internet)
+
+
+1. Expose Deployment as a Service:
+---------------------------------
+# kubectl expose deployment <Deployment-Name>  --type=NodePort --port=80 --target-port=80 --name=<Service-Name-To-Be-Created>
+# kubectl expose deployment my-first-deployment --type=NodePort --port=80 --target-port=80 --name=my-first-deployment-service
+
+2. Get Service Info:
+--------------------
+# kubectl get svc
+
+Observation: Make a note of port which starts with 3 (Example: 80:3xxxx/TCP). Capture the port 3xxxx and use it in application URL below. 
+
+
+3. Get Public IP of Worker Nodes:
+---------------------------------
+
+# kubectl get nodes -o wide
+
+Observation: Make a note of "EXTERNAL-IP" if your Kubernetes cluster is setup on AWS EKS.
+
+
+
+4. Access the Application using Public IP:
+-------------------------------------------
+
+# http://<worker-node-public-ip>:<Node-Port>
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

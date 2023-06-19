@@ -1,0 +1,79 @@
+
+1. DOCKER IMAGE BUILD:
+=======================
+
+1.Step:
+-------
+. Create a file called Docker File and edit it using vim. 
+. Please note that the name of the file has to be "Dockerfile" with "D" as capital.
+
+# vi Dockerfile
+
+
+Step 2:
+-------- 
+. Build your Docker File using the following instructions.
+
+#This is a sample Image 
+FROM ubuntu 
+MAINTAINER demousr@gmail.com 
+
+RUN apt-get update 
+RUN apt-get install –y nginx 
+CMD [“echo”,”Image created”] 
+
+
+Step 3: 
+-------
+. Save the file. In the next chapter, we will discuss how to build the image.
+
+
+Step 4:
+--------
+. It’s now time to build the Docker File. The Docker File can be built with the following command  "docker build".
+
+
+# docker build  -t ImageName:TagName dir
+
+
+-t − is to mention a tag to the image
+ImageName − This is the name you want to give to your image.
+TagName − This is the tag you want to give to your image.
+Dir − The directory where the Docker File is present.
+
+________________________________________________________________________________________________________________________________________________________
+
+2. CREATE GOOGLE CONTAINER REGISTRY:
+======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

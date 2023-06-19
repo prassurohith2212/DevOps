@@ -1,0 +1,377 @@
+
+4. Pods :
+=========
+
+4.1. What is Pod?
+==================
+- A pod is the smallest execution unit in Kubernetes. A pod encapsulates one or more applications. 
+- Pods are ephemeral by nature, if a pod (or the node it executes on) fails, Kubernetes can automatically create a new replica of that pod 
+  to continue operations. Pods include one or more containers (such as Docker containers).
+- It is possible to create a pod with multiple containers inside it. 
+
+example: keeping a database container and data container in the same pod.
+--------
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.2. What does a Pod do:
+==========================
+
+- Pods represent the processes running on a cluster. By limiting pods to a single process, Kubernetes can report on the health of each process 
+  running in the cluster. Pods have:
+
+- a unique IP address (which allows them to communicate with each other)
+- persistent storage volumes (as required)
+- configuration information that determine how a container should run.
+
+- Although most pods contain a single container, many will have a few containers that work closely together to execute a desired function.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.3. How do pods communicate with each other?
+===============================================
+- When a pod is created it is assigned its own unique IP address. 
+- If there are multiple containers within the pod, they can communicate between each other simply by using localhost. 
+- Communications outside of the pod is achieved by exposing a port. 
+- Communications between pods in a cluster takes advantage of the fact that Kubernetes assigns a cluster-private IP address 
+  to every pid in a cluster, eliminating the need to either explicitly create links between pods or to map container ports to host ports. 
+- In this way, every pod in a cluster can ‘see’ each other without the need for NAT.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.4. Types of Pod:
+===================
+
+- There are two types of Pods −
+
+
+1).Single container pod :
+---------------------------
+
+. They can be simply created with the kubctl run command, where you have a defined image on the Docker registry 
+  which we will pull while creating a pod.
+
+
+# kubectl run <name of pod> --image=<name of the image from registry>
+
+.Example − We will create a pod with a tomcat image which is available on the Docker hub.
+--------
+
+# kubectl run tomcat --image = tomcat:8.0
+
+
+2. Multi Container Pod:
+------------------------
+. Multi container pods are created using yaml mail with the definition of the containers.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+4.5. Pods Demo:
+==================
+
+1. Get Worker Nodes Status:
+-----------------------------
+
+. Verify if kubernetes worker nodes are ready.
+
+- Get Worker Node Status
+
+# kubectl get nodes
+
+- Get Worker Node Status with wide option
+
+# kubectl get nodes -o wide
+
+
+
+
+2. Create a Pod:
+-------------------
+- Template
+
+# kubectl run <desired-pod-name> --image <Container-Image> --generator=run-pod/v1
+
+- Replace Pod Name, Container Image
+
+# kubectl run my-first-pod --image stacksimplify/kubenginx:1.0.0
+# kubectl run my-first-pod --image stacksimplify/kubenginx:1.0.0 --generator=run-pod/v1
+
+
+Important Note: Without --generator=run-pod/v1 it will create a pod with a deployment which is another core kubernetes concept which we will learn in next few minutes.
+---------------
+
+Important Note:
+----------------
+- With Kubernetes 1.18 version, there is lot clean-up to kubectl run command.
+- The below will suffice to create a Pod as a pod without creating deployment. We dont need to add --generator=run-pod/v1
+
+
+
+
+3. List Pods:
+--------------
+
+- Get the list of pods
+. List Pods
+
+# kubectl get pods
+
+. Alias name for pods is po
+
+# kubectl get pod
+
+
+
+
+4. List Pods with wide option:
+--------------------------------
+
+- List pods with wide option which also provide Node information on which Pod is running
+
+# kubectl get pods -o wide
+
+
+
+
+5. What happened in the backgroup when above command is run?
+--------------------------------------------------------------
+- Kubernetes created a pod.
+- Pulled the docker image from docker hub.
+- Created the container in the pod.
+- Started the container present in the pod.
+
+
+
+6. Describe Pod:
+------------------
+
+- Describe the POD, primarily required during troubleshooting.
+- Events shown will be of a great help during troubleshooting.
+
+. To get list of pod names
+
+# kubectl get pods
+
+. Describe the Pod
+
+# kubectl describe pod <Pod-Name>
+# kubectl describe pod my-first-pod 
+
+
+
+7. Access Application:
+------------------------
+- Currently we can access this application only inside worker nodes.
+- To access it externally, we need to create a NodePort Service.
+- Services is one very very important concept in Kubernetes.
+
+
+
+8. Delete Pod:
+---------------
+
+- To get list of pod names
+
+# kubectl get pods
+
+- Delete Pod
+
+# kubectl delete pod <Pod-Name>
+# kubectl delete pod my-first-pod
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.6. NodePort Service Introduction :
+======================================
+
+1. Intro:
+-----------
+
+- A service can be defined as a logical set of pods. 
+- It can be defined as an abstraction on the top of the pod which provides a single IP address and DNS name by which pods can be accessed. 
+- With Service, it is very easy to manage load balancing configuration. It helps pods to scale very easily.
+- A service is a REST object in Kubernetes whose definition can be posted to Kubernetes apiServer on the Kubernetes master to create a new instance.
+
+
+
+2. Types of Services :
+-----------------------
+1. ClusterIP :
+---------------
+. This helps in restricting the service within the cluster. It exposes the service within the defined Kubernetes cluster.
+
+2. NodePort:
+------------
+. It will expose the service on a static port on the deployed node. 
+. A ClusterIP service, to which NodePort service will route, is automatically created. 
+. The service can be accessed from outside the cluster using the NodeIP:nodePort.
+
+
+3. Load Balancer :
+-------------------
+. It uses cloud providers’ load balancer. 
+. NodePort and ClusterIP services are created automatically to which the external load balancer will route.
+. A full service yaml file with service type as Node Port. Try to create one yourself.
+
+
+
+
+3. Demo Expose Pod with a Service :
+---------------------------------------
+. Expose pod with a service (NodePort Service) to access the application externally (from internet)
+
+. Ports
+       - port: Port on which node port service listens in Kubernetes cluster internally
+       - targetPort: We define container port here on which our application is running.
+       - NodePort: Worker Node port on which we can access our application.
+
+
+# Create  a Pod
+
+kubectl run <desired-pod-name> --image <Container-Image> --generator=run-pod/v1
+kubectl run my-first-pod --image stacksimplify/kubenginx:1.0.0 --generator=run-pod/v1
+
+# Expose Pod as a Service
+
+kubectl expose pod <Pod-Name>  --type=NodePort --port=80 --name=<Service-Name>
+kubectl expose pod my-first-pod  --type=NodePort --port=80 --name=my-first-service
+
+
+
+# Get Service Info
+
+kubectl get service
+kubectl get svc
+
+
+# Get Public IP of Worker Nodes
+
+kubectl get nodes -o wide
+ 
+
+# Access the Application using Public IP
+
+- http://<node1-public-ip>:<Node-Port>
+
+
+
+- Important Note about: target-port
+. If target-port is not defined, by default and for convenience, the targetPort is set to the same value as the port field.
+
+
+# Below command will fail when accessing the application, as service port (81) and container port (80) are different
+kubectl expose pod my-first-pod  --type=NodePort --port=81 --name=my-first-service2     
+
+# Expose Pod as a Service with Container Port (--taret-port)
+kubectl expose pod my-first-pod  --type=NodePort --port=81 --target-port=80 --name=my-first-service3
+
+# Get Service Info
+kubectl get service
+kubectl get svc
+
+# Get Public IP of Worker Nodes
+kubectl get nodes -o wide
+
+
+# Access the Application using Public IP
+
+- http://<node1-public-ip>:<Node-Port>
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.7. Interact with a Pod :
+===========================
+
+1. Verify Pod Logs
+---------------------
+
+# Get Pod Name
+kubectl get po
+
+# Dump Pod logs
+kubectl logs <pod-name>
+kubectl logs my-first-pod
+
+# Stream pod logs with -f option and access application to see logs
+kubectl logs <pod-name>
+kubectl logs -f my-first-pod
+
+
+
+2. Connect to Container in a POD:
+----------------------------------
+- Connect to a Container in POD and execute commands
+
+# Connect to Nginx Container in a POD
+kubectl exec -it <pod-name> -- /bin/bash
+kubectl exec -it my-first-pod -- /bin/bash
+
+# Execute some commands in Nginx container
+ls
+cd /usr/share/nginx/html
+cat index.html
+exit
+
+
+# Running individual commands in a Container
+kubectl exec -it <pod-name> env
+
+# Sample Commands
+kubectl exec -it my-first-pod env
+kubectl exec -it my-first-pod ls
+kubectl exec -it my-first-pod cat /usr/share/nginx/html/index.html
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.8. Get YAML Output of Pod & Service :
+==========================================
+
+- Get YAML Output.
+
+# Get pod definition YAML output
+kubectl get pod my-first-pod -o yaml   
+
+# Get service definition YAML output
+kubectl get service my-first-service -o yaml 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.9. Clean-Up
+===============
+
+# Get all Objects in default namespace
+kubectl get all
+
+# Delete Services
+kubectl delete svc my-first-service
+kubectl delete svc my-first-service2
+kubectl delete svc my-first-service3
+
+# Delete Pod
+kubectl delete pod my-first-pod
+
+# Get all Objects in default namespace
+kubectl get all
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+
+6. Integrate SonarQube with Jenkins:
+=====================================
+
+1. Prerequisites:
+------------------
+- Create an GCP Instance.
+
+1. a Sonarqube Server Click here to Setup Sonarqube server
+2. A Jenkins server Click here to set up a Jenkins server
+
+
+2. On Sonarqube server:
+------------------------
+- Generate a sonarqube token to authenticate from Jenkins.
+
+1. Login to SonarQube.
+2. Create a Project.
+3. Manual or Integrate with SCM Tools & Next
+4. Provide a Project Key & Display Name --->>Setup.
+5. Token Name & Generate.
+6. Make a Note of Token.
+
+
+
+
+3. On Jenkins server:
+----------------------
+
+1. Install Sonarqube plugin
+
+-->Manage Plugins--->Search for Sonar Qube Scanner----->Install With out restart.
+
+2. Configure Sonarqube credentials
+
+--->Manage Jenkins ---->Manage Credentials ---->Global credentials---->Credentials.----->>Add Credentials--->Screat Text--->>Provide token & ID as Sonar-Token.
+
+
+3. Add Sonarqube to jenkins "configure system"
+
+---->Manage Jenkins---->Configure System---->SonarQube Servers--->Enable Environment variable----->Add a Node SonarNode to jenkins.
+-->Name:SonarQube-Version---->ServerURL--->Server Authentication ---->>Apply & Save.
+
+4. Install SonarScanner
+- login to jenkins server and do or
+- manage jenkins---->global tool configuration--->sonarqube scanner---->install automatically-->apply save.
+
+5.Run Pipeline job
